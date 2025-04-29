@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GraphQL Test</title>
+    <script>
+        // Simple function to fetch data from GraphQL server
+        async function fetchData() {
+            const query = `
+                query {
+                    totalRevenue {
+                        value
+                        subValue
+                        date
+                    }
+                }
+            `;
+
+            try {
+                const response = await fetch('http://localhost:4000/graphql', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query })
+                });
+
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+                console.log('GraphQL response:', data);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+                console.error('Error fetching data:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>GraphQL Test</h1>
+    <button onclick="fetchData()">Fetch Data</button>
+    <pre id="result">Results will appear here...</pre>
+</body>
+</html>
